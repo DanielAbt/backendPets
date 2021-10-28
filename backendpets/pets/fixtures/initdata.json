@@ -1,0 +1,84 @@
+[
+    {
+        "model": "pets.CustomUser",
+        "fields": {
+            "password" : "Admin1234#",
+            "username" : "Admin1",
+            "first_name" : "Daniel",
+            "last_name" : "Abt",
+            "is_superuser" : "True",
+            "is_staff" : "True",
+            "is_active" : "True",
+            "email" : "abtdaniel@gmail.com"
+        }
+    },
+    {
+        "model": "pets.CustomUser",
+        "fields": {
+            "password" : "Guest1234#",
+            "username" : "Guest1",
+            "first_name" : "Phanton",
+            "last_name" : "Casper",
+            "is_superuser" : "False",
+            "is_staff" : "False",
+            "is_active" : "True",
+            "email" : "casper@gmail.com"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "Tana",
+            "is_birth_approximate" : "True",
+            "birth_date" : "2019-05-12"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "Nala",
+            "is_birth_approximate" : "False",
+            "birth_date" : "2020-07-02"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "Roxy",
+            "is_birth_approximate" : "True",
+            "birth_date" : "2021-01-22"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "Tor",
+            "is_birth_approximate" : "False",
+            "birth_date" : "2016-09-12"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "Bobby",
+            "is_birth_approximate" : "True",
+            "birth_date" : "2016-05-12"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "Pink",
+            "is_birth_approximate" : "True",
+            "birth_date" : "2019-12-12"
+        }
+    },
+    {
+        "model": "pets.Pets",
+        "fields": {
+            "name" : "cap",
+            "is_birth_approximate" : "True",
+            "birth_date" : "2012-12-12"
+        }
+    }
+]
