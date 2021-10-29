@@ -26,11 +26,11 @@ SECRET_KEY = 'django-insecure--bbn6c%-i6eb%r3h4o-+#o313z(odu%9gytfe$m*!b*iek%aem
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
-    'http://127.0.0.1:4200',
-]
+CORS_ORIGIN_ALLOW_ALL = True    
+CORS_ORIGIN_WHITELIST = []
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,8 +78,8 @@ WSGI_APPLICATION = 'backendpets.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 5,

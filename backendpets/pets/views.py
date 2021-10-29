@@ -38,7 +38,7 @@ class signin(APIView):
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            return JsonResponse(dict(user=serializer.data), status=201)
         return JsonResponse(serializer.errors, status=400)
 
 
@@ -46,14 +46,14 @@ class petsList(generics.GenericAPIView):
     authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = [IsAuthenticated]
 
-    queryset = Pets.objects.all()
+    queryset = Pets.objects.all().order_by('name', '-birth_date')
     serializer_class = PetsSerializer
 
     def filter_queryset(self):
         petsNameFilter = self.request.GET.get('name', None)
         petsMinAge = self.request.GET.get('min_birth_date', None)
         petsMaxAge = self.request.GET.get('max_birth_date', None)
-        petsList = self.get_queryset()
+        petsList = self.queryset
         if petsNameFilter:
             petsList = petsList.filter(name__contains=petsNameFilter)
         if petsMinAge:

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import CustomUser, Pets
 
 # Register your models here.
 
@@ -21,4 +21,8 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email',)
     ordering = ('email')
 
+class PetsAdmin(admin.ModelAdmin):
+    list_display = ('name', 'birth_date')
+
 admin.site.register(CustomUser, UserAdmin)
+admin.site.register(Pets, PetsAdmin)
