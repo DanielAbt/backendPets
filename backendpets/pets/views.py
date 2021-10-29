@@ -1,5 +1,6 @@
 
 from django.contrib.auth.models import User
+from rest_framework.serializers import Serializer
 from rest_framework.views import APIView
 from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
@@ -12,7 +13,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from django.middleware.csrf import get_token
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -24,6 +25,8 @@ class loginUser(APIView):
         # If user is registed, return seccion user information.
         if user is not None and user.is_active:
             login(request, user)
+            print(user)
+            print(user.is_authenticated)
             dataUser = dict(user=UserSerializer(user).data)
             return JsonResponse(dataUser)
         
@@ -43,8 +46,9 @@ class signin(APIView):
 
 
 class petsList(generics.GenericAPIView):
-    authentication_classes = [SessionAuthentication, BasicAuthentication]
+    #authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = [IsAuthenticated]
+    authentication_classes = [SessionAuthentication,]
 
     queryset = Pets.objects.all().order_by('name', '-birth_date')
     serializer_class = PetsSerializer
@@ -61,11 +65,10 @@ class petsList(generics.GenericAPIView):
         if petsMaxAge:
             petsList = petsList.filter(birth_date__lte=petsMaxAge)        
         return petsList
-
+    
     def get(self, request, *args, **kwargs):
-        print('list: ', request.user, self)
+        print('list: ', request.user)
         queryset = self.filter_queryset()
-        print(queryset.query)
         page = request.GET.get('page')
         try: 
             page = self.paginate_queryset(queryset)
