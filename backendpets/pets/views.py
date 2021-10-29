@@ -63,8 +63,9 @@ class petsList(generics.GenericAPIView):
         return petsList
 
     def get(self, request, *args, **kwargs):
-        print('list: ', request.user)
+        print('list: ', request.user, self)
         queryset = self.filter_queryset()
+        print(queryset.query)
         page = request.GET.get('page')
         try: 
             page = self.paginate_queryset(queryset)
@@ -82,6 +83,7 @@ class petsList(generics.GenericAPIView):
         data = JSONParser().parse(request)
         serializer = PetsSerializer(data=data)
         if serializer.is_valid():
+            serializer.validated_data['name'] = data.get('name').capitalize()
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)

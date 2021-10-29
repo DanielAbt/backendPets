@@ -176,3 +176,6 @@ body:
  $ python3 backendpets/manage.py initdata
  ```
 
+ User admin : "admin@gmail.com", password: "Admin1234#"
+ User: "casper@gmail.com", password: "Guest1234#"
+
