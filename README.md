@@ -14,6 +14,8 @@ You can:
 
 ## available endpoints
 
+base url: http://localhost:8000/api/
+
 <table>
 <tr>
 <td> Endpoint </td> <td> HTTP Verb </td> <td> Params / Body </td> <td> Expected response example </td>
