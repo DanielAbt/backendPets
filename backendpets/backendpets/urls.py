@@ -25,7 +25,7 @@ from django.conf import settings
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^api/users/login/$', ApiView.login.as_view(), name="login users"),
+    url(r'^api/users/login/$', ApiView.loginUser.as_view(), name="login users"),
     url(r'^api/users/signin/$', ApiView.signin.as_view(), name="login users"),
     url(r'^api/pets/$', ApiView.petsList.as_view(), name="Pets list"),
     url(r'^api/pets/(?P<id>\d+)/$', ApiView.petsList.as_view(), name="Delete a Pet"),

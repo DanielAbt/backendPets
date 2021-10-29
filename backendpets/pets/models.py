@@ -42,12 +42,12 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
-    objects = CustomUserManager()
+    #objects = CustomUserManager()
     
-    def __str__(self):
-        return self.email
+    # def __str__(self):
+    #     return self.email
 
 class Pets(models.Model):
     id = models.AutoField(primary_key=True, unique=True)

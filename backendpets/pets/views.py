@@ -11,19 +11,20 @@ from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 # Create your views here.
-class login(APIView):
+
+class loginUser(APIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get('email', None)
         password = request.data.get('password', None)
         user = authenticate(email=email, password=password)
-        print(user)
         # If user is registed, return seccion user information.
         if user is not None and user.is_active:
-            #login(request, user)
+            login(request, user)
             dataUser = dict(user=UserSerializer(user).data)
-            print(user.is_authenticated)
             return JsonResponse(dataUser)
         
         # If user isn't registed, return 401 "UNAUTHORIZED".
@@ -42,6 +43,7 @@ class signin(APIView):
 
 
 class petsList(generics.GenericAPIView):
+    authentication_classes = [SessionAuthentication, BasicAuthentication]
     #permission_classes = [IsAuthenticated]
 
     queryset = Pets.objects.all()
@@ -85,7 +87,7 @@ class petsList(generics.GenericAPIView):
         return JsonResponse(serializer.errors, status=400)
 
     def delete(self,*args, **kwargs):
-        ### check user is admin
+        ### check if user is admin
         # if request.user.is_superuser:
         try:
             pet = Pets.objects.get(id=kwargs.get('id'))
