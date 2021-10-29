@@ -5,13 +5,12 @@ from rest_framework import generics
 from django.http import JsonResponse, HttpResponse
 from rest_framework import permissions
 from .serializers import PetsSerializer, UserSerializer
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from .models import Pets
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-
 
 # Create your views here.
 class login(APIView):
@@ -19,10 +18,12 @@ class login(APIView):
         email = request.data.get('email', None)
         password = request.data.get('password', None)
         user = authenticate(email=email, password=password)
-        
+        print(user)
         # If user is registed, return seccion user information.
-        if user:
+        if user is not None and user.is_active:
+            #login(request, user)
             dataUser = dict(user=UserSerializer(user).data)
+            print(user.is_authenticated)
             return JsonResponse(dataUser)
         
         # If user isn't registed, return 401 "UNAUTHORIZED".
@@ -60,19 +61,20 @@ class petsList(generics.GenericAPIView):
         return petsList
 
     def get(self, request, *args, **kwargs):
-            queryset = self.filter_queryset()
-            page = request.GET.get('page')
-            try: 
-                page = self.paginate_queryset(queryset)
-            except Exception as e:
-                page = []
-                data = page
-                return HttpResponse(status=404)
+        print('list: ', request.user)
+        queryset = self.filter_queryset()
+        page = request.GET.get('page')
+        try: 
+            page = self.paginate_queryset(queryset)
+        except Exception as e:
+            page = []
+            data = page
+            return HttpResponse(status=404)
 
-            if page is not None:
-                serializer = self.get_serializer(page, many=True)
-                data = serializer.data
-                return self.get_paginated_response(data)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            data = serializer.data
+            return self.get_paginated_response(data)
 
     def post(self, request, *args, **kwargs):
         data = JSONParser().parse(request)
@@ -83,9 +85,14 @@ class petsList(generics.GenericAPIView):
         return JsonResponse(serializer.errors, status=400)
 
     def delete(self,*args, **kwargs):
+        ### check user is admin
+        # if request.user.is_superuser:
         try:
             pet = Pets.objects.get(id=kwargs.get('id'))
             pet.delete()
             return HttpResponse(status=200)
         except pet.DoesNotExist:
             return HttpResponse(status=404)
+        ##
+        # else:
+        #   return HttpResponse(status=401)
