@@ -115,7 +115,6 @@ body:
 ```
 </td>
 </tr>
-</table>
 
 <tr>
 <td> users/signin </td>
